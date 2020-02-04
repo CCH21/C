@@ -1,31 +1,28 @@
 #include <stdio.h>
-#define N 128
 
-void fun(int *arr, int arrLength);
+void moveZeroes(int *arr, int arrSize);
 int main(void)
 {
-	int nums[11] = {0, 0, 2, 8, 0, 3, 7, 2, 0, 9, 13};
-	int len = sizeof(nums) / sizeof(nums[0]);
-	fun(nums, len);
+	int nums[10] = {0, 0, 2, 1, 3, 0, 8, 4, 0, 6};
+	moveZeroes(nums, 10);
+	int i;
+	for (i = 0; i < 9; i++)
+		printf("%d ", nums[i]);
+	printf("%d\n", nums[i]);
 	return 0;
 }
 
-void fun(int *arr, int arrLength)
+void moveZeroes(int *arr, int arrSize)
 {
-	int ret[N] = {0};
-	int i, j;
-	j = 0;
-	for (i = 0; i < arrLength; i++)
+	int zeroNum = 0;
+	for (int i = 0; i < arrSize; i++)
 	{
-		if (arr[i] != 0)
+		if (arr[i] == 0)
+			zeroNum++;
+		else if (zeroNum != 0)
 		{
-			ret[j] = arr[i];
-			j++;
+			arr[i - zeroNum] = arr[i];
+			arr[i] = 0;
 		}
 	}
-	for (; j < arrLength; j++)
-		ret[j] = 0;
-	for (i = 0; i < arrLength - 1; i++)
-		printf("%d ", ret[i]);
-	printf("%d", ret[i]);
 }
