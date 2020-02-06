@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct data{
+typedef struct data {
 	int num;
 	struct data *next;
-}Data;
+} Data;
 
 int main(void)
 {
