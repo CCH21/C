@@ -116,7 +116,7 @@ void CreateUsersFile(void) {                                                /* Ó
     }
 }
 
-void Register(void)	{                                                       /* ÓÃÓÚÓÃ»§×¢²á */
+void Register(void) {                                                       /* ÓÃÓÚÓÃ»§×¢²á */
     struct User a, b;
     FILE* fp;
     char temp[40];
