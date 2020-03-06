@@ -1,12 +1,12 @@
 /*
  **********************************************
- *              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³              *
- **********************************************
+ * ÏîÄ¿Ãû³Æ£ºÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³                 *
  * ×÷    Õß£º³Â´ºêÏ                           *
  * Ñ§    Ğ££ºÎ÷°²ÓÊµç´óÑ§                     *
  * Ñ§    Ôº£º¼ÆËã»úÑ§Ôº                       *
  * ×¨    Òµ£ºÊı¾İ¿ÆÑ§Óë´óÊı¾İ¼¼Êõ             *
  * °à    ¼¶£º1902                             *
+ * Ñ§    ºÅ£º04194041                         *
  * µç×ÓÓÊÏä£º1398635912@qq.com                *
  **********************************************
  */
@@ -17,7 +17,7 @@
 #include <conio.h>
 #include <windows.h>
 
-struct User	{					                                            /* ½á¹¹Ìå£¬ÓÃÓÚ´æ´¢ÓÃ»§ĞÅÏ¢ */
+struct User {                                                               /* ½á¹¹Ìå£¬ÓÃÓÚ´æ´¢ÓÃ»§ĞÅÏ¢ */
     char username[20];                                                      /* ÓÃ»§Ãû */
     char password[40];                                                      /* ÃÜÂë */
 };
@@ -52,8 +52,11 @@ void FindPlayerByName(struct PlayerInformation* list, char name[100]);      /* Ó
 void ChangePlayerByNum(struct PlayerInformation* list, int num);            /* ÓÃÓÚ¸ù¾İÇòÔ±ºÅÂëĞŞ¸ÄÇòÔ±ĞÅÏ¢ */
 void ChangePlayerByName(struct PlayerInformation* list, char name[100]);    /* ÓÃÓÚ¸ù¾İÇòÔ±ºÅÂëĞŞ¸ÄÇòÔ±ĞÅÏ¢ */
 void sorted(struct PlayerInformation* list);                                /* ÓÃÓÚ°´ÕÕÇòÔ±ºÅÂëË³ĞòÉıĞòÅÅĞò */
+void sorted_reverse(struct PlayerInformation* list);                        /* ÓÃÓÚ°´ÕÕÇòÔ±ºÅÂëË³Ğò½µĞòÅÅĞò */
 void load(struct PlayerInformation* list);                                  /* ÓÃÓÚ¶ÁÈ¡ÎÄ¼ş */
 void save(struct PlayerInformation* list);                                  /* ÓÃÓÚ±£´æÎÄ¼ş */
+void statistics_position(struct PlayerInformation* list);                   /* ÓÃÓÚ¸ù¾İ³¡ÉÏÎ»ÖÃÍ³¼ÆÊı¾İ */
+void statistics_remark(struct PlayerInformation* list);                     /* ÓÃÓÚ¸ù¾İ±¸×¢Í³¼ÆÊı¾İ */
 void Menu(struct PlayerInformation* list);                                  /* ÓÃÓÚ´´½¨²Ëµ¥ */
 
 int main(void) {                                                            /* Ö÷º¯Êı */
@@ -84,6 +87,7 @@ void mainMenu(void) {                                                       /* Ó
     printf("6.ÏÔÊ¾ËùÓĞÇòÔ±ĞÅÏ¢\n");
     printf("7.¶ÁÈ¡ÎÄ¼şÖĞµÄËùÓĞÇòÔ±ĞÅÏ¢\n");
     printf("8.½«ÇòÔ±ĞÅÏ¢±£´æµ½ÎÄ¼ş\n");
+    printf("9.Í³¼ÆÊı¾İ\n");
     printf("0.ÍË³öµÇÂ¼\n");
     printf("--------------------------------------------\n");
     printf("ÇëÊäÈë¶ÔÓ¦µÄÊı×Ö£º");
@@ -92,7 +96,7 @@ void mainMenu(void) {                                                       /* Ó
 int getMenuNum(void) {                                                      /* ÓÃÓÚ»ñÈ¡²Ëµ¥Ñ¡Ïî±àºÅ */
     mainMenu();
     int num;
-    while (scanf("%d", &num) != 1 || num < 0 || num > 8) {
+    while (scanf("%d", &num) != 1 || num < 0 || num > 9) {
         safe_flush(stdin);
         system("cls");
         mainMenu();
@@ -101,7 +105,7 @@ int getMenuNum(void) {                                                      /* Ó
     return num;
 }
 
-void CreateUsersFile(void) { 			                                    /* ÓÃÓÚ´´½¨´¢´æÓÃ»§ÕËºÅÃÜÂëµÄÎÄ¼ş */
+void CreateUsersFile(void) {                                                /* ÓÃÓÚ´´½¨´¢´æÓÃ»§ÕËºÅÃÜÂëµÄÎÄ¼ş */
     FILE* fp;
     if ((fp = fopen("Users.txt", "rb")) == NULL) {
         if ((fp = fopen("Users.txt", "wb+")) == NULL) {
@@ -112,7 +116,7 @@ void CreateUsersFile(void) { 			                                    /* ÓÃÓÚ´´½¨´
     }
 }
 
-void Register(void)	{       			                                    /* ÓÃÓÚÓÃ»§×¢²á */
+void Register(void)	{                                                       /* ÓÃÓÚÓÃ»§×¢²á */
     struct User a, b;
     FILE* fp;
     char temp[40];
@@ -126,7 +130,7 @@ void Register(void)	{       			                                    /* ÓÃÓÚÓÃ»§×¢
     scanf("%s", &a.username);
 
     while (1) {
-        if (strcmp(a.username, b.username))	{   	                        /* ±È½ÏÁ½¸öusernameÊÇ·ñÏàÍ¬ */
+        if (strcmp(a.username, b.username)) {   	                        /* ±È½ÏÁ½¸öusernameÊÇ·ñÏàÍ¬ */
             if (!feof(fp))				                                    /* Èç¹ûÎ´µ½ÎÄ¼şÎ² */
                 fread(&b, sizeof(struct User), 1, fp);
             else
@@ -294,6 +298,8 @@ void LoginMenu(void) {							                            /* ÓÃÓÚ´´½¨µÇÂ¼½çÃæ */
         Register();
         break;
     case 0:
+        printf("ÕıÔÚÍË³ö£¬ÇëÉÔºò...\n");
+        Sleep(3000);
         printf("ÔÙ¼û£¡\n");
         exit(0);
     }
@@ -390,7 +396,7 @@ void AddPlayerByPos(struct PlayerInformation* list) {                       /* Ó
 void ShowAll(struct PlayerInformation* list) {                              /* ÓÃÓÚÏÔÊ¾ËùÓĞÇòÔ±ĞÅÏ¢ */
     printf("\n");
     struct PlayerInformation* pos = list;
-    printf("%s\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n", "Number", "Name", "Nationality", "Club", "Position", "Remark");
+    printf("%s\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n", "Num.", "Name", "Nation.", "Club", "Pos.", "Remark");
     while (pos->next) {
         printf("%d\t", pos->next->num);
         printf("%s\t\t", pos->next->name);
@@ -587,6 +593,49 @@ void sorted(struct PlayerInformation* list) {                               /* Ó
     }
 }
 
+void sorted_reverse(struct PlayerInformation* list) {                       /* ÓÃÓÚ°´ÕÕÇòÔ±ºÅÂëË³Ğò½µĞòÅÅĞò */
+    int numX;
+    char nameX[100];
+    char nationalityX[50];
+    char clubX[50];
+    char positionX[20];
+    char remarkX[20];
+    struct PlayerInformation* posF = list;
+    struct PlayerInformation* pos = list->next;
+    if (!posF->next) {
+        printf("\nÊı¾İÎª¿Õ£¬ÎŞ·¨ÅÅĞò£¡\n");
+        return;
+    }
+    while (pos->next) {
+        posF = posF->next;
+        pos = pos->next;
+        if (posF->num < pos->num) {
+            numX = posF->num;
+            strcpy(nameX, posF->name);
+            strcpy(nationalityX, posF->nationality);
+            strcpy(clubX, posF->club);
+            strcpy(positionX, posF->position);
+            strcpy(remarkX, posF->remark);
+
+            posF->num = pos->num;
+            strcpy(posF->name, pos->name);
+            strcpy(posF->nationality, pos->nationality);
+            strcpy(posF->club, pos->club);
+            strcpy(posF->position, pos->position);
+            strcpy(posF->remark, pos->remark);
+
+            pos->num = numX;
+            strcpy(pos->name, nameX);
+            strcpy(pos->nationality, nationalityX);
+            strcpy(pos->club, clubX);
+            strcpy(pos->position, positionX);
+            strcpy(pos->remark, remarkX);
+
+            sorted_reverse(list);
+        }
+    }
+}
+
 void load(struct PlayerInformation* list) {                                 /* ÓÃÓÚ¶ÁÈ¡ÎÄ¼ş */
     FILE* fp;
     if ((fp = fopen("Player.txt", "r")) == NULL) {
@@ -600,7 +649,9 @@ void load(struct PlayerInformation* list) {                                 /* Ó
         list = list->next;
         pos = CreateList();
     }
-    printf("\nĞÅÏ¢¶ÁÈ¡³É¹¦£¡\n");
+    printf("ÕıÔÚ¶ÁÈ¡ĞÅÏ¢£¬ÇëÉÔºò...\n");
+    Sleep(2000);
+    printf("ĞÅÏ¢¶ÁÈ¡³É¹¦£¡\n");
     system("pause");
     return;
 }
@@ -640,7 +691,97 @@ void save(struct PlayerInformation* list) {                                 /* Ó
         pos = pos->next;
     }
     fclose(fp);
-    printf("\nĞÅÏ¢±£´æ³É¹¦£¡\n");
+    printf("\nÕıÔÚ±£´æĞÅÏ¢£¬ÇëÉÔºò...\n");
+    Sleep(2000);
+    printf("ĞÅÏ¢±£´æ³É¹¦£¡\n");
+    system("pause");
+    return;
+}
+
+void statistics_position(struct PlayerInformation* list) {                  /* ÓÃÓÚ¸ù¾İ³¡ÉÏÎ»ÖÃÍ³¼ÆÊı¾İ */ 
+    int cnt_players = 0;                                                    /* ÇòÔ±ÊıÁ¿ */
+    int cnt_GK = 0;                                                         /* Î»ÖÃ£ºÃÅ½« */
+    int cnt_DF = 0;                                                         /* Î»ÖÃ£ººóÎÀ */
+    int cnt_MF = 0;                                                         /* Î»ÖÃ£ºÖĞ³¡ */
+    int cnt_FW = 0;                                                         /* Î»ÖÃ£ºÇ°·æ */
+    struct PlayerInformation* pos = list->next;
+    while (pos) {
+        cnt_players++;
+        if (strcmp(pos->position, "GK") == 0) {
+            cnt_GK++;
+        }
+        if (strcmp(pos->position, "DF") == 0) {
+            cnt_DF++;
+        }
+        if (strcmp(pos->position, "MF") == 0) {
+            cnt_MF++;
+        }
+        if (strcmp(pos->position, "FW") == 0) {
+            cnt_FW++;
+        }
+        pos = pos->next;
+    }
+    system("cls");
+    printf("--------------------------------------------\n");
+    printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
+    printf("--------------------------------------------\n");
+    printf("ÕıÔÚÍ³¼Æ£¬ÇëÉÔºò...\n");
+    Sleep(2000);
+    printf("Í³¼ÆÍê³É£¬ÕıÔÚÉú³É±¨¸æ...\n");
+    Sleep(2000);
+    printf("--------------------------------------------\n");
+    printf("                  Í³¼Æ½á¹û\n");
+    printf("--------------------------------------------\n");
+    printf("¹²ÓĞÇòÔ±£º%dÈË\n", cnt_players);
+    printf("ÃÅ½«£º%dÈË\n", cnt_GK);
+    printf("ºóÎÀ£º%dÈË\n", cnt_DF);
+    printf("ÖĞ³¡£º%dÈË\n", cnt_MF);
+    printf("Ç°·æ£º%dÈË\n", cnt_FW);
+    printf("--------------------------------------------\n");
+    system("pause");
+    return;
+}
+
+void statistics_remark(struct PlayerInformation* list) {                    /* ÓÃÓÚ¸ù¾İ±¸×¢Í³¼ÆÊı¾İ */
+    int cnt_players = 0;                                                    /* ÇòÔ±ÊıÁ¿ */
+    int cnt_normal = 0;                                                     /* ×´Ì¬£ºÕı³£ */
+    int cnt_injured = 0;                                                    /* ×´Ì¬£ºÊÜÉË */
+    int cnt_suspension = 0;                                                 /* ×´Ì¬£ºÍ£Èü */
+    int cnt_undetermined = 0;                                               /* ×´Ì¬£º´ı¶¨ */
+    struct PlayerInformation* pos = list->next;
+    while (pos) {
+        cnt_players++;
+        if (strcmp(pos->remark, "normal") == 0) {
+            cnt_normal++;
+        }
+        if (strcmp(pos->remark, "injured") == 0) {
+            cnt_injured++;
+        }
+        if (strcmp(pos->remark, "suspension") == 0) {
+            cnt_suspension++;
+        }
+        if (strcmp(pos->remark, "undetermined") == 0) {
+            cnt_undetermined++;
+        }
+        pos = pos->next;
+    }
+    system("cls");
+    printf("--------------------------------------------\n");
+    printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
+    printf("--------------------------------------------\n");
+    printf("ÕıÔÚÍ³¼Æ£¬ÇëÉÔºò...\n");
+    Sleep(2000);
+    printf("Í³¼ÆÍê³É£¬ÕıÔÚÉú³É±¨¸æ...\n");
+    Sleep(2000);
+    printf("--------------------------------------------\n");
+    printf("                  Í³¼Æ½á¹û\n");
+    printf("--------------------------------------------\n");
+    printf("¹²ÓĞÇòÔ±£º%dÈË\n", cnt_players);
+    printf("Õı³££º%dÈË\n", cnt_normal);
+    printf("ÊÜÉË£º%dÈË\n", cnt_injured);
+    printf("Í£Èü£º%dÈË\n", cnt_suspension);
+    printf("´ı¶¨£º%dÈË\n", cnt_undetermined);
+    printf("--------------------------------------------\n");
     system("pause");
     return;
 }
@@ -805,7 +946,7 @@ void Menu(struct PlayerInformation* list) {                                 /* Ó
         printf("2.¸ù¾İÇòÔ±ĞÕÃûĞŞ¸Ä\n");
         printf("0.·µ»ØÉÏÒ»²½\n");
         printf("--------------------------------------------\n");
-        printf("ÇëÊäÈë¶ÔÓ¦µÄÊı×Ö£º\n");
+        printf("ÇëÊäÈë¶ÔÓ¦µÄÊı×Ö£º");
         while (scanf("%d", &j) != 1 || j < 0 || j > 2) {
             safe_flush(stdin);
             printf("\nÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë£º");
@@ -851,9 +992,38 @@ void Menu(struct PlayerInformation* list) {                                 /* Ó
         printf("--------------------------------------------\n");
         printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
         printf("--------------------------------------------\n");
-        sorted(list);
-        ShowAll(list);
-        system("pause");
+        printf("1.°´ÇòÔ±ºÅÂëÉıĞòÅÅĞò\n");
+        printf("2.°´ÇòÔ±ºÅÂë½µĞòÅÅĞò\n");
+        printf("0.·µ»ØÉÏÒ»²½\n");
+        printf("--------------------------------------------\n");
+        printf("ÇëÊäÈë¶ÔÓ¦µÄÊı×Ö£º");
+        while (scanf("%d", &j) != 1 || j < 0 || j > 2) {
+            safe_flush(stdin);
+            printf("\nÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë£º");
+        }
+        switch (j) {
+        case 1:
+            system("cls");
+            printf("--------------------------------------------\n");
+            printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
+            printf("--------------------------------------------\n");
+            sorted(list);
+            ShowAll(list);
+            system("pause");
+            break;
+        case 2:
+            system("cls");
+            printf("--------------------------------------------\n");
+            printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
+            printf("--------------------------------------------\n");
+            sorted_reverse(list);
+            ShowAll(list);
+            system("pause");
+            break;
+        case 0:
+            return;
+            break;
+        }
         break;
     case 6:
         system("cls");
@@ -877,7 +1047,35 @@ void Menu(struct PlayerInformation* list) {                                 /* Ó
         printf("--------------------------------------------\n");
         save(list);
         break;
+    case 9:
+        system("cls");
+        printf("--------------------------------------------\n");
+        printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
+        printf("--------------------------------------------\n");
+        printf("1.°´ÇòÔ±Î»ÖÃÍ³¼ÆÊı¾İ\n");
+        printf("2.°´ÇòÔ±×´Ì¬Í³¼ÆÊı¾İ\n");
+        printf("0.·µ»ØÉÏÒ»²½\n");
+        printf("--------------------------------------------\n");
+        printf("ÇëÊäÈë¶ÔÓ¦µÄÊı×Ö£º");
+        while (scanf("%d", &j) != 1 || j < 0 || j > 2) {
+            safe_flush(stdin);
+            printf("\nÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë£º");
+        }
+        switch (j) {
+        case 1:
+            statistics_position(list);
+            break;
+        case 2:
+            statistics_remark(list);
+            break;
+        case 0:
+            return;
+            break;
+        }
+        break;
     case 0:
+        printf("ÕıÔÚÍË³ö£¬ÇëÉÔºò...\n");
+        Sleep(3000);
         LoginMenu();
         break;
     }
