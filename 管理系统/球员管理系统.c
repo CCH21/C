@@ -463,7 +463,7 @@ void FindPlayerByNum(struct PlayerInformation* list, int num) {             /* Ó
         system("pause");
         return;
     }
-    printf("%s\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n", "Number", "Name", "Nationality", "Club", "Position", "Remark");
+    printf("%s\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n", "Number", "Name", "Nation.", "Club", "Pos.", "Remark");
     printf("%d\t", pos->num);
     printf("%s\t\t", pos->name);
     printf("%s\t\t", pos->nationality);
@@ -487,7 +487,7 @@ void FindPlayerByName(struct PlayerInformation* list, char name[100]) {     /* Ó
         system("pause");
         return;
     }
-    printf("%s\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n", "Number", "Name", "Nationality", "Club", "Position", "Remark");
+    printf("%s\t%s\t\t%s\t\t%s\t\t%s\t\t%s\n", "Number", "Name", "Nation.", "Club", "Pos.", "Remark");
     printf("%d\t", pos->num);
     printf("%s\t\t", pos->name);
     printf("%s\t\t", pos->nationality);
