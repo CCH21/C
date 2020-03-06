@@ -125,13 +125,13 @@ void Register(void)	{                                                       /* Ó
     printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
     printf("--------------------------------------------\n");
     fp = fopen("Users.txt", "r");
-    fread(&b, sizeof(struct User), 1, fp);			                        /* ¶ÁÈëÒ»¸ö½á¹¹Ìå×Ö·û¿éµ½b */
+    fread(&b, sizeof(struct User), 1, fp);                                  /* ¶ÁÈëÒ»¸ö½á¹¹Ìå×Ö·û¿éµ½b */
     printf("ÇëÊäÈëÓÃ»§Ãû£º");
     scanf("%s", &a.username);
 
     while (1) {
-        if (strcmp(a.username, b.username)) {   	                        /* ±È½ÏÁ½¸öusernameÊÇ·ñÏàÍ¬ */
-            if (!feof(fp))				                                    /* Èç¹ûÎ´µ½ÎÄ¼şÎ² */
+        if (strcmp(a.username, b.username)) {                               /* ±È½ÏÁ½¸öusernameÊÇ·ñÏàÍ¬ */
+            if (!feof(fp))                                                  /* Èç¹ûÎ´µ½ÎÄ¼şÎ² */
                 fread(&b, sizeof(struct User), 1, fp);
             else
                 break;
@@ -217,7 +217,7 @@ void Register(void)	{                                                       /* Ó
     } while (1);
 }
 
-void Login(void) {       			                                        /* ÓÃÓÚÓÃ»§µÇÂ¼ */
+void Login(void) {                                                          /* ÓÃÓÚÓÃ»§µÇÂ¼ */
     struct User a, b;
     FILE* fp;
     system("cls");
@@ -225,14 +225,14 @@ void Login(void) {       			                                        /* ÓÃÓÚÓÃ»§µ
     printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
     printf("--------------------------------------------\n");
     fp = fopen("Users.txt", "r");
-    fread(&b, sizeof(struct User), 1, fp);			                        /* ¶ÁÈëÒ»¸ö½á¹¹Ìå×Ö·û¿éµ½b */
+    fread(&b, sizeof(struct User), 1, fp);                                  /* ¶ÁÈëÒ»¸ö½á¹¹Ìå×Ö·û¿éµ½b */
     printf("ÇëÊäÈëÓÃ»§Ãû£º");
     scanf("%s", &a.username);
     while (1) {
-        if (strcmp(a.username, b.username) == 0)		                    /* Èç¹ûÓĞ´ËÓÃ»§Ãû */
+        if (strcmp(a.username, b.username) == 0)                            /* Èç¹ûÓĞ´ËÓÃ»§Ãû */
             break;
         else {
-            if (!feof(fp))					                                /* Èç¹ûÎÄ¼şÃ»ÓĞ¶ÁÍê */
+            if (!feof(fp))                                                  /* Èç¹ûÎÄ¼şÃ»ÓĞ¶ÁÍê */
                 fread(&b, sizeof(struct User), 1, fp);
             else {
                 printf("´ËÓÃ»§Ãû²»´æÔÚ£¡\n");
@@ -275,7 +275,7 @@ void Login(void) {       			                                        /* ÓÃÓÚÓÃ»§µ
     } while (strcmp(a.password, b.password) == 0);
 }
 
-void LoginMenu(void) {							                            /* ÓÃÓÚ´´½¨µÇÂ¼½çÃæ */
+void LoginMenu(void) {                                                      /* ÓÃÓÚ´´½¨µÇÂ¼½çÃæ */
     system("cls");
     printf("--------------------------------------------\n");
     printf("              ÇòÔ±ĞÅÏ¢¹ÜÀíÏµÍ³\n");
