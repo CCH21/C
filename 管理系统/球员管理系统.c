@@ -133,7 +133,10 @@ void Register(void) {                                                           
     fp = fopen("Users.txt", "r");
     fread(&b, sizeof(struct User), 1, fp);                                                    /* 读入一个结构体字符块到b */
     printf("请输入用户名：");
-    scanf("%s", &a.username);
+    while (scanf("%s", a.username) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
 
     while (1) {
         if (strcmp(a.username, b.username)) {                                                 /* 比较两个username是否相同 */
@@ -233,7 +236,10 @@ void Login(void) {                                                              
     fp = fopen("Users.txt", "r");
     fread(&b, sizeof(struct User), 1, fp);                                                    /* 读入一个结构体字符块到b */
     printf("请输入用户名：");
-    scanf("%s", &a.username);
+    while (scanf("%s", a.username) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     while (1) {
         if (strcmp(a.username, b.username) == 0)                                              /* 如果有此用户名 */
             break;
@@ -264,7 +270,7 @@ void Login(void) {                                                              
     }
     a.password[i] = '\0';
     do {
-        if (strcmp(a.password, b.password) == 0) {		                                          /* 如果密码匹配 */
+        if (strcmp(a.password, b.password) == 0) {		                                      /* 如果密码匹配 */
             fclose(fp);
             printf("\n登录成功！正在进入球员管理系统...\n");
             Sleep(3000);
@@ -309,7 +315,7 @@ void LoginMenu(void) {                                                          
         printf("--------------------------------------------\n");
         printf("              球员信息管理系统\n");
         printf("--------------------------------------------\n");
-        printf("球员信息管理系统    [版本 v4.2.20200307]\n");
+        printf("球员信息管理系统    [版本 v4.3.20200308]\n");
         printf("作者信息：陈春晗  西安邮电大学计算机学院\n");
         printf("          数据科学与大数据技术专业1902班\n");
         printf("电子邮箱：1398635912@qq.com\n");
@@ -341,15 +347,35 @@ struct PlayerInformation* CreatePlayer(void) {                                  
         safe_flush(stdin);
     }
     printf("请输入球员姓名：");
-    scanf("%s", node->name);
+    /*scanf("%s", node->name);*/
+    while (scanf("%s", node->name) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入球员国籍：");
-    scanf("%s", node->nationality);
+    /*scanf("%s", node->nationality);*/
+    while (scanf("%s", node->nationality) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入球员所在俱乐部：");
-    scanf("%s", node->club);
+    /*scanf("%s", node->club);*/
+    while (scanf("%s", node->club) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入球员位置：");
-    scanf("%s", node->position);
+    /*scanf("%s", node->position);*/
+    while (scanf("%s", node->position) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入备注：");
-    scanf("%s", node->remark);
+    /*scanf("%s", node->remark);*/
+    while (scanf("%s", node->remark) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     return node;
 }
 
@@ -577,15 +603,30 @@ void ChangePlayerByNum(struct PlayerInformation* list, int num) {               
         safe_flush(stdin);
     }
     printf("请输入修改之后的球员姓名：");
-    scanf("%s", pos->name);
+    while (scanf("%s", pos->name) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的球员国籍：");
-    scanf("%s", pos->nationality);
+    while (scanf("%s", pos->nationality) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的球员俱乐部：");
-    scanf("%s", pos->club);
+    while (scanf("%s", pos->club) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的球员位置：");
-    scanf("%s", pos->position);
+    while (scanf("%s", pos->position) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的备注：");
-    scanf("%s", pos->remark);
+    while (scanf("%s", pos->remark) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
 }
 
 void ChangePlayerByName(struct PlayerInformation* list, char name[100]) {                     /* 用于根据球员姓名修改球员信息 */
@@ -606,15 +647,30 @@ void ChangePlayerByName(struct PlayerInformation* list, char name[100]) {       
         safe_flush(stdin);
     }
     printf("请输入修改之后的球员姓名：");
-    scanf("%s", pos->name);
+    while (scanf("%s", pos->name) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的球员国籍：");
-    scanf("%s", pos->nationality);
+    while (scanf("%s", pos->nationality) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的球员俱乐部：");
-    scanf("%s", pos->club);
+    while (scanf("%s", pos->club) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的球员位置：");
-    scanf("%s", pos->position);
+    while (scanf("%s", pos->position) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
     printf("请输入修改之后的备注：");
-    scanf("%s", pos->remark);
+    while (scanf("%s", pos->remark) != 1) {
+        printf("\n输入错误！请重新输入：");
+        safe_flush(stdin);
+    }
 }
 
 void sorted(struct PlayerInformation* list) {                                                 /* 用于按照球员号码顺序升序排序 */
