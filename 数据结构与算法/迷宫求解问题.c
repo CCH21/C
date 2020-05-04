@@ -67,15 +67,15 @@ int main(void) {
 int Path(int xi, int yi, int xe, int ye) {
     int i, j, k, di, find;
     Stack st;
-    st.top = -1;                                 /* 初始化栈 */
-    st.top++;                                    /* 初始方块入栈 */
+    st.top = -1;                                                     /* 初始化栈 */
+    st.top++;                                                        /* 初始方块入栈 */
     st.data[st.top].i = xi;
     st.data[st.top].j = yi;
     st.data[st.top].di = -1;
     while (st.top > -1) {
         i = st.data[st.top].i;
         j = st.data[st.top].j;
-        di = st.data[st.top].di;                 /* 取栈顶方块 */
+        di = st.data[st.top].di;                                     /* 取栈顶方块 */
         if (i == xe && j == ye) {
             for (k = 0; k <= st.top; k++) {
                 printf("(%d,%d,%d)", st.data[k].i, st.data[k].j, st.data[k].di + 1);
@@ -108,16 +108,16 @@ int Path(int xi, int yi, int xe, int ye) {
                 find = 1;
         }
         if (find == 1) {
-            st.data[st.top].di = di;             /* 修改原栈顶元素的di值 */
-            st.top++;                            /* 下一个可走方块进栈 */
+            st.data[st.top].di = di;                                 /* 修改原栈顶元素的di值 */
+            st.top++;                                                /* 下一个可走方块进栈 */
             st.data[st.top].i = i;
             st.data[st.top].j = j;
             st.data[st.top].di = -1;
-            map[i][j] = 1;                       /* 避免重复走到该方块 */
+            map[i][j] = 1;                                           /* 避免重复走到该方块 */
         }
         else {
             map[st.data[st.top].i][st.data[st.top].j] = 0;
-            st.top--;                            /* 将该方块退栈 */
+            st.top--;                                                /* 将该方块退栈 */
         }
     }
     return 0;
