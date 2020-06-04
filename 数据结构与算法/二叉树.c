@@ -7,14 +7,16 @@ struct TreeNode {
 	struct TreeNode* right;
 };
 
-struct TreeNode* Create(void);                             /* 创建二叉树 */
-void PreOrderTree(struct TreeNode* root);                  /* 前序遍历二叉树 */
-void InOrderTree(struct TreeNode* root);                   /* 中序遍历二叉树 */
-void PostOrderTree(struct TreeNode* root);                 /* 后序遍历二叉树 */
-void FreeTree(struct TreeNode* root);                      /* 后序销毁二叉树 */
+struct TreeNode* Create(void);                                       /* 创建二叉树 */
+void PreOrderTree(struct TreeNode* root);                            /* 前序遍历二叉树 */
+void InOrderTree(struct TreeNode* root);                             /* 中序遍历二叉树 */
+void PostOrderTree(struct TreeNode* root);                           /* 后序遍历二叉树 */
+int MaxDepth(struct TreeNode* root);                                 /* 二叉树的最大深度 */
+int IsMirror(struct TreeNode* root1, struct TreeNode* root2);        /* 是否为对称二叉树 */
+void FreeTree(struct TreeNode* root);                                /* 后序销毁二叉树 */
 
 int main(void) {
-	printf("请输入根结点：");
+	printf("请输入二叉树的根结点：");
 	struct TreeNode* root = Create();
 	printf("先序排列为：");
 	PreOrderTree(root);
@@ -22,11 +24,16 @@ int main(void) {
 	InOrderTree(root);
 	printf("\n后序排列为：");
 	PostOrderTree(root);
+	printf("\n该二叉树的最大深度为：%d\n", MaxDepth(root));
+	if (IsMirror(root, root))
+		printf("该二叉树是对称二叉树\n");
+	else
+		printf("该二叉树不是对称二叉树\n");
 	FreeTree(root);
 	return 0;
 }
 
-struct TreeNode* Create(void) {                            /* 创建二叉树 */
+struct TreeNode* Create(void) {                                      /* 创建二叉树 */
 	int val;
 	scanf("%d", &val);
 	struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));
@@ -44,7 +51,7 @@ struct TreeNode* Create(void) {                            /* 创建二叉树 */
 	return root;
 }
 
-void PreOrderTree(struct TreeNode* root) {                 /* 前序遍历二叉树 */
+void PreOrderTree(struct TreeNode* root) {                           /* 前序遍历二叉树 */
 	if (root == NULL)
 		return;
 	printf("%d ", root->val);
@@ -52,7 +59,7 @@ void PreOrderTree(struct TreeNode* root) {                 /* 前序遍历二叉树 */
 	PreOrderTree(root->right);
 }
 
-void InOrderTree(struct TreeNode* root) {                  /* 中序遍历二叉树 */
+void InOrderTree(struct TreeNode* root) {                            /* 中序遍历二叉树 */
 	if (root == NULL)
 		return;
 	InOrderTree(root->left);
@@ -60,7 +67,7 @@ void InOrderTree(struct TreeNode* root) {                  /* 中序遍历二叉树 */
 	InOrderTree(root->right);
 }
 
-void PostOrderTree(struct TreeNode* root) {                /* 后序遍历二叉树 */
+void PostOrderTree(struct TreeNode* root) {                          /* 后序遍历二叉树 */
 	if (root == NULL)
 		return;
 	PostOrderTree(root->left);
@@ -68,7 +75,27 @@ void PostOrderTree(struct TreeNode* root) {                /* 后序遍历二叉树 */
 	printf("%d ", root->val);
 }
 
-void FreeTree(struct TreeNode* root) {                     /* 后序销毁二叉树 */
+int MaxDepth(struct TreeNode* root) {                                /* 二叉树的最大深度 */
+	if (root == NULL)
+		return 0;
+	else {
+		int maxLeft = MaxDepth(root->left), maxRight = MaxDepth(root->right);
+		if (maxLeft > maxRight)
+			return 1 + maxLeft;
+		else
+			return 1 + maxRight;
+	}
+}
+
+int IsMirror(struct TreeNode* root1, struct TreeNode* root2) {       /* 是否为对称二叉树 */
+	if (root1 == NULL && root2 == NULL)
+		return 1;
+	if (root1 == NULL || root2 == NULL)
+		return 0;
+	return (root1->val == root2->val) && IsMirror(root1->left, root2->right) && IsMirror(root1->right, root2->left);
+}
+
+void FreeTree(struct TreeNode* root) {                               /* 后序销毁二叉树 */
 	if (!root)
 		return;
 	if (root->left) {
