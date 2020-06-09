@@ -6,7 +6,7 @@ typedef struct node {
     struct node* next;
 } Node;
 
-struct node* reverse(struct node* pHead);
+Node* reverse(Node* L);
 
 int main(void) {
     Node* head = NULL, *tail = NULL, *p;
@@ -37,17 +37,14 @@ int main(void) {
     return 0;
 }
 
-struct node* reverse(struct node* pHead) {
-    struct node* p, *q, *t;
-    q = pHead;
-    p = q->next;
-    q->next = NULL;
-    while (t != NULL) {
-        t = p->next;
-        p->next = q;
-        q = p;
-        if (t != NULL)
-            p = t;
-    }
-    return p;
+Node* reverse(Node* L) {
+    Node* p1=NULL,*p2=NULL;
+  while (L)
+  {
+    p2=L->next;
+    L->next=p1;
+    p1=L;
+    L=p2;
+  }
+  return p1;
 }
