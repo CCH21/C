@@ -22,7 +22,7 @@ typedef struct {
 } TSMatrix;
 
 /* 函数声明区 */
-void dotTSMatrix(TSMatrix* A, TSMatrix* B, int** ret);
+int dotTSMatrix(TSMatrix* A, TSMatrix* B, int** ret);
 
 /* 主函数 */
 int main(void) {
@@ -45,28 +45,31 @@ int main(void) {
     for (int i = 0; i < A.m; i++) {
         res[i] = (int*)calloc(B.n, sizeof(int));
     }
-    dotTSMatrix(&A, &B, res);
+    int flag = dotTSMatrix(&A, &B, res);
     printf("------------------------------------------------------------\n");
-    printf("The result is:\n");
-    for (int i = 0; i < A.m; i++) {
-        for (int j = 0; j < B.n; j++) {
-            printf("%-4d", res[i][j]);
+    if (flag) {
+        printf("The result is:\n");
+        for (int i = 0; i < A.m; i++) {
+            for (int j = 0; j < B.n; j++) {
+                printf("%-4d", res[i][j]);
+            }
+            printf("\n");
         }
-        printf("\n");
+    } else {
+        printf("Error: Matrix multiplication is not possible.\n");
     }
     return 0;
 }
 
 /* 自定义函数 */
-void dotTSMatrix(TSMatrix* A, TSMatrix* B, int** ret) {
+int dotTSMatrix(TSMatrix* A, TSMatrix* B, int** ret) {
     /**
      * dotTSMatrix()函数用于将稀疏矩阵A和B相乘
      * 将AB的结果保存在二维数组ret中
      */
     /* 判断A和B是否满足矩阵乘法条件 */
     if (A->n != B->m) {
-        printf("Error: Matrix multiplication is not possible.\n");
-        return;
+        return 0;
     }
     /* 动态分配数组A_arr, B_arr */
     int** A_arr = (int**)calloc(A->m, sizeof(int));
@@ -94,4 +97,5 @@ void dotTSMatrix(TSMatrix* A, TSMatrix* B, int** ret) {
             ret[i][j] = s;
         }
     }
+    return 1;
 }
